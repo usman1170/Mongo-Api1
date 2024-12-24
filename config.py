@@ -7,12 +7,17 @@ from flask_jwt_extended import JWTManager
 from flask_restful import Api
 import jwt
 
+from src.db.storage_manager import StorageManager
 from src.db.db_manager import MongoDBManager
 
 load_dotenv()
 
 
 mongoDBManager = MongoDBManager()
+storageManager = StorageManager()
+
+storageManager.check_bucket(os.environ.get("AWS_BUCKET_NAME"))
+
 app = Flask(__name__)
 
 

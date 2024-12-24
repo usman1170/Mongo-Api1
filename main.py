@@ -1,5 +1,5 @@
 from config import app
-from routes import authentication, posts
+from routes import authentication, posts_route
 
 
 @app.route("/")

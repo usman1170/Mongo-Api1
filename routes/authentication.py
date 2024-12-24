@@ -1,9 +1,8 @@
-from views.auth_view import AuthView, AuthView, Login
-from config import app, api
-from flask import request
+from views.auth_view import Register, Login
+from config import api
 
 
 baseUrl = "/api/auth"
 
-api.add_resource(AuthView, f"{baseUrl}/register")
+api.add_resource(Register, f"{baseUrl}/register")
 api.add_resource(Login, f"{baseUrl}/login")
