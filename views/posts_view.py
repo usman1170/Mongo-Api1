@@ -15,17 +15,18 @@ class Create_post(Resource):
         try:
             data = request.get_json()
             user_id = get_jwt_identity()
-            resp = storageManager.upload_file_return_url(source_file_name="D:/Python Flask/Mongo Api1/temp/s3-bnr.jpg", destination_path="usman", randon_name=True)
-            
+            image = data.get("image")
+            if not image:
+                return{"message":"Image is missing"},400
+
+            resp = storageManager.upload_file_return_url(source_file_name=image, destination_path="usman", randon_name=True)
             post_data = {
                 "title":data.get("title"),
                 "description":data.get("description"),
                 "category":data.get("category"),
                 "created_at":str(datetime.now()),
                 "user_id":ObjectId(user_id),
-                "image_url":resp["url"],
-                "image_name":resp["original_name"],
-                "image_size":resp["size"]
+                "image":resp,
             }
             if resp["Status"]:                
                 post = Posts.add_post(post_data)
@@ -45,25 +46,30 @@ class GetAllPosts(Resource):
     @jwt_required()
     def get(self):
         try:
-            posts = Posts.get_all_posts()
+            search = request.args.get("search","")
+            posts = Posts.get_all_posts(search=search)
             if not posts:
-                return{"message":"post creation failed"},500
+                return{"Posts":[]},200
 
-            return{"posts":posts},200                
+            return{"Posts":posts},200                
         except Exception as e:
             print(e)
             return {"Error":"Something wents wrong"},500
         
 
 class DownloadFile(Resource):
-    # @jwt_required()
-    def get(self):
+    @jwt_required()
+    def post(self):
         try:
-            # resp = storageManager.download_file(filename="usman.jpg", filepath="D:/Python Flask/Mongo Api1/temp/usman.jpg")
-            resp = storageManager.upload_file_return_url(source_file_name="D:/Python Flask/Mongo Api1/temp/s3-bnr.jpg", destination_path="usman", randon_name=True)
-            # if not resp["Status"]:
-            #     return resp,500
-            return{"file":resp},200                
+            data = request.get_json()
+            image = data.get("image")
+            if not image:
+                return{"Error":"Image is missing"},404
+            url = storageManager.generate_presigned_url(key=image)
+            if url:
+                return{"url":url},200
+            else:
+                return{"Error":"Error while generating url"},500
         except Exception as e:
             print(e)
             return {"Error":"Something wents wrong"},500

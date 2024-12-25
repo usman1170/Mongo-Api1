@@ -67,6 +67,7 @@ class StorageManager:
         
     def upload_file(self, source_file, destination_path, public=True, delete=False):
         try:
+            extra_args = {"ACL":"public-read"} if public else {}
             self.s3.upload_file(Filename=source_file, Bucket=self.bucket_name, Key=destination_path)
             if delete:
                 os.remove(source_file)
@@ -91,6 +92,7 @@ class StorageManager:
                 "name":os.path.basename(source_file_name) if not randon_name else new_name,
                 "path":destination_path,
             }
+            print(data)
             self.upload_file(source_file=source_file_name, destination_path=destination_path, public=public, delete=delete)
             if public:
                 
@@ -99,7 +101,20 @@ class StorageManager:
             data["Status"] = True
             return data
         except Exception as e:
-            raise e
+            return None
+        
+
+    def generate_presigned_url(self, key, expiration=3600, method="get_object"):
+        try:
+            url = self.s3.generate_presigned_url(
+                ClientMethod=method,
+                Params={"Bucket":self.bucket_name, "Key":key},
+                ExpiresIn=expiration
+            )
+            return url
+        except Exception as e:
+            print(f"Error generating url = {e}")
+            return None
     
         
             

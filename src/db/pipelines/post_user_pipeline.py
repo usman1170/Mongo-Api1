@@ -15,9 +15,7 @@ post_user_pipeline=[
                     "category":1,
                     "created_at":1,
                     "user_id":1,
-                    "image_url":1,
-                    "image_name":1,
-                    "image_size":1,
+                    "image":1,
                     "user":{
                         "$arrayElemAt":["$user",0]
                     }
@@ -25,20 +23,14 @@ post_user_pipeline=[
             },
             {
                 "$project":{
-                    "user.password":0
-                    # "_id":1,
-                    # "title":1,
-                    # "description":1,
-                    # "category":1,
-                    # "created_at":1,
-                    # "user_id":1,
-                    # "user":{
-                    #     "_id":1,
-                    #     "name":1,
-                    #     "email":1,
-                    #     "role":1,
-                    #     "phone":1
-                    # }
+                    "user.password":0,
+                    "user.created_at":0,
+                }
+            },
+            {
+                "$project":{
+                    "image.Status":0,
+                    "image.path":0,
                 }
             }
         ]

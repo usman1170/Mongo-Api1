@@ -14,7 +14,6 @@ class Register(Resource):
     def post(self):
         try:
             data = request.get_json()
-            
             user_model = UserModel(
                 name=data.get("name"),
                 email=data.get("email"),
