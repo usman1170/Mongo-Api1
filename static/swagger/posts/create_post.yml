@@ -1,0 +1,119 @@
+Create a new post
+---
+tags:
+  - Posts
+security:
+  - api_key: []
+definitions:
+  - schema:
+      id: PostDetails
+      properties:
+        title:
+          type: string
+          description: The title of the post
+          example: "My First Post"
+        description:
+          type: string
+          description: The description of the post
+          example: "This is a detailed description of my post."
+        category:
+          type: string
+          description: The category of the post (e.g., Travel, Lifestyle)
+          example: "Travel"
+        image:
+          type: object
+          description: The image details of the post
+          properties:
+            size:
+              type: string
+              description: The size of the image
+              example: "400 kb"
+            original_name:
+              type: string
+              description: The original name of the image
+              example: "second.jpg"
+            name:
+              type: string
+              description: The name of the uploaded image file
+              example: "ed0d50d5b5de9bfdca754d7e9b.jpg"
+            path:
+              type: string
+              description: The path where the image is stored
+              example: "usman/ed0d50d5b5de9bfdca754d7e9b.jpg"
+            url:
+              type: string
+              description: The URL to access the image
+              example: "https://s3.us-east-1.amazonaws.com/usman.mongoapi/usman/ed0d50d5b5de9bfdca754d7e9b.jpg"
+            Status:
+              type: boolean
+              description: The upload status of the image
+              example: true
+parameters:
+  - in: body
+    name: body
+    description: JSON payload for creating a new post
+    schema:
+      required:
+        - title
+        - description
+        - category
+        - image
+      properties:
+        title:
+          type: string
+          example: "My First Post"
+          description: The title of the post
+        description:
+          type: string
+          example: "This is a detailed description of my post."
+          description: The description of the post
+        category:
+          type: string
+          example: "Travel"
+          description: The category of the post
+        image:
+          type: object
+          description: The image object of the post, containing image details
+          properties:
+            size:
+              type: string
+              example: "400 kb"
+              description: The size of the image
+            original_name:
+              type: string
+              example: "second.jpg"
+              description: The original name of the image file
+            name:
+              type: string
+              example: "ed0d50d5b5de9bfdca754d7e9b.jpg"
+              description: The name of the uploaded image file
+            url:
+              type: string
+              example: "https://s3.us-east-1.amazonaws.com/usman.mongoapi/usman/ed0d50d5b5de9bfdca754d7e9b.jpg"
+              description: The URL to access the image
+
+responses:
+  201:
+    description: Post created successfully
+    schema:
+      properties:
+        message:
+          type: string
+          description: Confirmation message
+          example: "Post created successfully"
+  400:
+    description: Bad request due to invalid or missing data
+    schema:
+      properties:
+        message:
+          type: string
+          description: Error message explaining the issue
+          example: "Image is missing"
+  500:
+    description: Server error
+    schema:
+      properties:
+        Error:
+          type: string
+          description: Explanation of the error
+          example: "Something went wrong"

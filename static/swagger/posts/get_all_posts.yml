@@ -1,0 +1,59 @@
+Get all posts
+---
+tags:
+  - Posts
+security:
+  - api_key: []
+parameters:
+  - in: query
+    name: search
+    schema:
+      type: string
+    required: false
+    description: Optional search keyword to filter posts.
+    example: "travel"
+responses:
+  200:
+    description: Posts retrieved successfully.
+    schema:
+      properties:
+        Posts:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Post ID.
+                example: "60f71ad6d90b3b0018c12345"
+              title:
+                type: string
+                description: Title of the post.
+                example: "My First Post"
+              description:
+                type: string
+                description: Description of the post.
+                example: "This is a detailed description of my post."
+              category:
+                type: string
+                description: Category of the post.
+                example: "Travel"
+              created_at:
+                type: string
+                description: Timestamp of when the post was created.
+                example: "2023-01-01T12:00:00Z"
+              user_id:
+                type: string
+                description: User ID who created the post.
+                example: "60f71ad6d90b3b0018c12345"
+              image:
+                type: string
+                description: URL or Base64 string of the post image.
+                example: "https://example.com/image.jpg"
+  500:
+    description: Server error.
+    schema:
+      properties:
+        Error:
+          type: string
+          example: "Something went wrong"

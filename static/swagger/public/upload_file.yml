@@ -1,0 +1,74 @@
+Upload a file
+---
+tags:
+  - Public
+security:
+  - api_key: []
+consumes:
+  - multipart/form-data
+parameters:
+  - in: formData
+    name: image
+    type: file
+    description: Uplaod image and get url.
+    required: true
+
+requestBody:
+  description: Upload an image file.
+  required: true
+  content:
+    application/form-data:
+      schema:
+        type: object
+        properties:
+          image:
+            type: string
+            format: binary
+            description: The image file to upload.
+            example: "file.jpg"
+responses:
+  200:
+    description: File uploaded successfully.
+    schema:
+      properties:
+        data:
+          type: object
+          properties:
+            size:
+              type: string
+              description: The size of the image
+              example: "400 kb"
+            original_name:
+              type: string
+              description: The original name of the image
+              example: "second.jpg"
+            name:
+              type: string
+              description: The name of the uploaded image file
+              example: "ed0d50d5b5de9bfdca754d7e9b.jpg"
+            path:
+              type: string
+              description: The path where the image is stored
+              example: "usman/ed0d50d5b5de9bfdca754d7e9b.jpg"
+            url:
+              type: string
+              description: The URL to access the image
+              example: "https://s3.us-east-1.amazonaws.com/usman.mongoapi/usman/ed0d50d5b5de9bfdca754d7e9b.jpg"
+            Status:
+              type: boolean
+              description: The upload status of the image
+              example: true
+  404:
+    description: Missing image file.
+    schema:
+      properties:
+        Error:
+          type: string
+          example: "Image is missing"
+  500:
+    description: Server error.
+    schema:
+      properties:
+        Error:
+          type: string
+          example: "Something went wrong"

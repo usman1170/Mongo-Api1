@@ -1,0 +1,90 @@
+Login
+---
+tags:
+  - Auth
+parameters:
+  - in: body
+    name: body
+    description: JSON payload containing login details.
+    schema:
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: usman@gmail.com
+          description: Email address of the user.
+        password:
+          type: string
+          example: "password123"
+          description: Password for the user account.
+
+responses:
+  200:
+    description: Login successful.
+    schema:
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: User ID.
+              example: "60f71ad6d90b3b0018c12345"
+            name:
+              type: string
+              description: Name of the user.
+              example: "usman"
+            email:
+              type: string
+              description: Email address of the user.
+              example: "usman@gmail.com"
+            role:
+              type: string
+              description: Role of the user.
+              example: "user"
+            phone:
+              type: string
+              description: Phone number of the user.
+              example: "+123456789"
+            created_at:
+              type: string
+              description: User account creation timestamp.
+              example: "2023-01-01T12:00:00Z"
+            access_token:
+              type: string
+              description: JWT access token for authentication.
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            refresh_token:
+              type: string
+              description: JWT refresh token.
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  400:
+    description: Bad request. Invalid input data.
+    schema:
+      properties:
+        message:
+          type: string
+          example: "Invalid email or password format."
+  401:
+    description: Unauthorized. Invalid credentials.
+    schema:
+      properties:
+        Error:
+          type: string
+          example: "Invalid Credentials"
+  404:
+    description: User not found.
+    schema:
+      properties:
+        Error:
+          type: string
+          example: "User not found"
+  500:
+    description: Server error.
+    schema:
+      properties:
+        Error:
+          type: string
+          example: "Something went wrong"

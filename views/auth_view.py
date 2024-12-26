@@ -12,6 +12,11 @@ from werkzeug.security import check_password_hash,generate_password_hash
         
 class Register(Resource):
     def post(self):
+        """ 
+        Register
+        ---
+        swagger_from_file: static/swagger/auth/register.yml
+        """
         try:
             data = request.get_json()
             user_model = UserModel(
@@ -36,6 +41,11 @@ class Register(Resource):
         
 class Login(Resource):
     def post(self):
+        """ 
+        Login
+        ---
+        swagger_from_file: static/swagger/auth/login.yml
+        """
         try:
             data = request.get_json()
             email = data.get("email")

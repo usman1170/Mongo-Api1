@@ -1,0 +1,107 @@
+Registration
+---
+tags:
+  - Auth
+definitions:
+  - schema:
+      id: UserRegistration
+      properties:
+        name:
+          type: string
+          description: The user's full name
+          example: "John Doe"
+        email:
+          type: string
+          description: A valid email address
+          example: "john.doe@example.com"
+        password:
+          type: string
+          description: A valid password
+          example: "password123"
+        phone:
+          type: string
+          description: The user's phone number
+          example: "+123456789"
+        role:
+          type: string
+          description: The role of the user (e.g., admin, user)
+          example: "user"
+parameters:
+  - in: body
+    name: body
+    description: JSON payload for user registration
+    schema:
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: Usman
+          description: Full name of the user
+        email:
+          type: string
+          example: usman@gmail.com
+          description: A valid email address
+        password:
+          type: string
+          example: Password123
+          description: A strong password
+        phone:
+          type: string
+          example: "+123456789"
+          description: Optional phone number of the user
+        role:
+          type: string
+          example: "user"
+          description: Optional user role
+responses:
+  201:
+    description: User created successfully
+    schema:
+      properties:
+        status:
+          type: string
+          description: Status of the request
+          example: "success"
+        message:
+          type: string
+          description: Confirmation message
+          example: "User created successfully"
+  400:
+    description: Bad data provided
+    schema:
+      properties:
+        status:
+          type: string
+          description: Status of the request
+          example: "failed"
+        message:
+          type: string
+          description: Explanation of the error
+          example: "Invalid inputs provided"
+  409:
+    description: Validation error
+    schema:
+      properties:
+        status:
+          type: string
+          description: Status of the request
+          example: "failed"
+        message:
+          type: string
+          description: Explanation of the error
+          example: "Email already exists"
+  500:
+    description: Internal server error
+    schema:
+      properties:
+        status:
+          type: string
+          description: Status of the request
+          example: "failed"
+        message:
+          type: string
+          description: Explanation of the server error
+          example: "Something went wrong"

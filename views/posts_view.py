@@ -11,6 +11,12 @@ from config import storageManager
 class Create_post(Resource):
     @jwt_required()
     def post(self):
+        
+        """ 
+        Create Post
+        ---
+        swagger_from_file: static/swagger/posts/create_post.yml
+        """
         try:
             data = request.get_json()
             user_id = get_jwt_identity()
@@ -35,9 +41,16 @@ class Create_post(Resource):
             print(e)
             return {"Error":"Something wents wrong"},500
         
+
+
 class GetAllPosts(Resource):
     @jwt_required()
     def get(self):
+        """ 
+        Get All Posts
+        ---
+        swagger_from_file: static/swagger/posts/get_all_posts.yml
+        """
         try:
             search = request.args.get("search","")
             posts = Posts.get_all_posts(search=search)
@@ -53,6 +66,11 @@ class GetAllPosts(Resource):
 class UploadFile(Resource):
     @jwt_required()
     def post(self):
+        """ 
+        Upload File
+        ---
+        swagger_from_file: static/swagger/public/upload_file.yml
+        """
         try:
             data = request.files
             image = data.get("image")
