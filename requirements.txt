@@ -5,6 +5,8 @@ python_dotenv
 flask_jwt_extended
 pymongo
 pydantic
+pydantic[email]
 boto3
 boto3-stubs
 uuid
+gunicorn

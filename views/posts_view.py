@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from bson import ObjectId
 from flask import jsonify, request
@@ -19,25 +18,19 @@ class Create_post(Resource):
             if not image:
                 return{"message":"Image is missing"},400
 
-            resp = storageManager.upload_file_return_url(source_file_name=image, destination_path="usman", randon_name=True)
             post_data = {
                 "title":data.get("title"),
                 "description":data.get("description"),
                 "category":data.get("category"),
                 "created_at":str(datetime.now()),
                 "user_id":ObjectId(user_id),
-                "image":resp,
-            }
-            if resp["Status"]:                
-                post = Posts.add_post(post_data)
-                if not post:
-                    return{"message":"post creation failed"},500
-                else:
-                    print("post created")
-                    return{"message":"post created successfully"},201
+                "image":image,
+            }             
+            post = Posts.add_post(post_data)
+            if not post:
+                return{"message":"post creation failed"},500
             else:
-                print("image not uploaded")
-                return{"message":"Something wents wrong: Image not uploaded"},400
+                return{"message":"post created successfully"},201
         except Exception as e:
             print(e)
             return {"Error":"Something wents wrong"},500
@@ -57,19 +50,21 @@ class GetAllPosts(Resource):
             return {"Error":"Something wents wrong"},500
         
 
-class DownloadFile(Resource):
+class UploadFile(Resource):
     @jwt_required()
     def post(self):
         try:
-            data = request.get_json()
+            data = request.files
             image = data.get("image")
             if not image:
                 return{"Error":"Image is missing"},404
-            url = storageManager.generate_presigned_url(key=image)
-            if url:
-                return{"url":url},200
+            temp_path=f"/temp/{image.filename}"
+            image.save(temp_path)
+            resp = storageManager.upload_file_return_url(source_file_name=temp_path, destination_path="usman", randon_name=True)
+            if resp["Status"]:
+                return{"data":resp},200
             else:
-                return{"Error":"Error while generating url"},500
+                return{"Error":"Error while uploading file"},500
         except Exception as e:
             print(e)
             return {"Error":"Something wents wrong"},500
