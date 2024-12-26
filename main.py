@@ -4,4 +4,4 @@ from routes import authentication, posts_route
 
 @app.route("/")
 def index():
-    return {"message":"Welcome to flask app new 22 updated"}
+    return {"message":"Welcome to flask app updated"}
