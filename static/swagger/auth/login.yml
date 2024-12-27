@@ -17,7 +17,7 @@ parameters:
           description: Email address of the user.
         password:
           type: string
-          example: "password123"
+          example: "Password123"
           description: Password for the user account.
 
 responses:
