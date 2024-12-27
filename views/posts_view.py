@@ -1,4 +1,5 @@
 from datetime import datetime
+import tempfile
 from bson import ObjectId
 from flask import jsonify, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
@@ -76,7 +77,8 @@ class UploadFile(Resource):
             image = data.get("image")
             if not image:
                 return{"Error":"Image is missing"},404
-            temp_path=f"/temp/{image.filename}"
+            temp_dir = tempfile.gettempdir()
+            temp_path = f"{temp_dir}/{image.filename}"
             image.save(temp_path)
             resp = storageManager.upload_file_return_url(source_file_name=temp_path, destination_path="usman", randon_name=True)
             if resp["Status"]:
