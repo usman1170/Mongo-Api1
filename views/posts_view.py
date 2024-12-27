@@ -85,5 +85,5 @@ class UploadFile(Resource):
                 return{"Error":"Error while uploading file"},500
         except Exception as e:
             print(e)
-            return {"Error":"Something wents wrong"},500
+            return {"Error":f"Something wents wrong: {e}"},500
         
