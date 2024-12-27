@@ -6,3 +6,4 @@ def get_file_size(filepath):
     size_in_bytes = os.path.getsize(filepath)
     size_in_kb = size_in_bytes / 1024
     return int(size_in_kb)
+

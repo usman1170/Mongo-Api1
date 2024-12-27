@@ -6,6 +6,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_restful import Resource
 from src.db.posts import Posts
 from config import storageManager
+from src.utils.posts_utils import validate_image_fields
 
 
 
@@ -24,6 +25,9 @@ class Create_post(Resource):
             image = data.get("image")
             if not image:
                 return{"message":"Image is missing"},400
+            if not validate_image_fields(image) is None:
+                response, status_code = validate_image_fields(image)
+                return response, status_code
 
             post_data = {
                 "title":data.get("title"),

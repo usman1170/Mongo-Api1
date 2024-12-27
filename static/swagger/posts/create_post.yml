@@ -30,7 +30,7 @@ definitions:
               example: "400 kb"
             original_name:
               type: string
-              description: The original name of the image
+              description: The original name of the image file
               example: "second.jpg"
             name:
               type: string
@@ -87,10 +87,18 @@ parameters:
               type: string
               example: "ed0d50d5b5de9bfdca754d7e9b.jpg"
               description: The name of the uploaded image file
+            path:
+              type: string
+              example: "usman/ed0d50d5b5de9bfdca754d7e9b.jpg"
+              description: The path where the image is stored
             url:
               type: string
               example: "https://s3.us-east-1.amazonaws.com/usman.mongoapi/usman/ed0d50d5b5de9bfdca754d7e9b.jpg"
               description: The URL to access the image
+            Status:
+              type: boolean
+              example: true
+              description: The upload status of the image
 
 responses:
   201:
@@ -108,7 +116,7 @@ responses:
         message:
           type: string
           description: Error message explaining the issue
-          example: "Image is missing"
+          example: "Missing field: size"
   500:
     description: Server error
     schema:
