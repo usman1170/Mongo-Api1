@@ -68,6 +68,36 @@ class GetAllPosts(Resource):
             return {"Error":"Something wents wrong"},500
         
 
+class UploadImage(Resource):
+    @jwt_required()
+    def post(self):
+        """ 
+        Upload File
+        ---
+        swagger_from_file: static/swagger/public/upload_image.yml
+        """
+        try:
+            data = request.files
+            image = data.get("image")
+            if not image:
+                return{"Error":"Image is missing"},404
+            temp_dir = tempfile.gettempdir()
+            temp_path = f"{temp_dir}/{image.filename}"
+            image.save(temp_path)
+            new = temp_path.split(".")[-1].lower()
+            if new not in ["png","jpg","jpeg"]:
+                return{"Error":"Please pick a valid image e.g: .png, .jpg or .jpeg"},400
+            resp = storageManager.upload_file_return_url(source_file_name=temp_path, destination_path="usman", randon_name=True)
+            if resp["Status"]:
+                return{"data":resp},200
+            else:
+                return{"Error":"Error while uploading image"},500
+        except Exception as e:
+            print(e)
+            return {"Error":f"Something wents wrong: {e}"},500
+        
+
+
 class UploadFile(Resource):
     @jwt_required()
     def post(self):
@@ -84,7 +114,7 @@ class UploadFile(Resource):
             temp_dir = tempfile.gettempdir()
             temp_path = f"{temp_dir}/{image.filename}"
             image.save(temp_path)
-            resp = storageManager.upload_file_return_url(source_file_name=temp_path, destination_path="usman", randon_name=True)
+            resp = storageManager.upload_file_return_url(source_file_name=temp_path, destination_path="usman-files", randon_name=True)
             if resp["Status"]:
                 return{"data":resp},200
             else:
