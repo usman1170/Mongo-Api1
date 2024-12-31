@@ -1,8 +1,8 @@
+import os
 from flask import jsonify, render_template
 from config import app
 from routes import authentication, posts_route
 from flask_swagger import swagger
-
 
 
 @app.route("/")
@@ -34,6 +34,5 @@ def api():
     }
 
     return jsonify(swag)
-
 
 

@@ -34,7 +34,7 @@ class StorageManager:
                 if resp["Status"]:
                     print(f"bucket created {resp}")
                 else:
-                    print(f"bucket creation failed: {"message"}")
+                    print(f"bucket creation failed: {e.response}")
             
     
     def get_object(self, key):

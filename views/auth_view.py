@@ -7,6 +7,7 @@ from schemas.user_model import UserModel
 from src.db.user import Users
 from src.utils.auth import validate_login_data
 from werkzeug.security import check_password_hash,generate_password_hash
+import requests
  
  
         
@@ -31,6 +32,12 @@ class Register(Resource):
             user = Users.add_user(user_model)
             if not user:
                 return {"error":"User creation failed"},500
+            response = requests.post(
+                "https://us-central1-test-app-31.cloudfunctions.net/send_welcome_email",
+                json={"email": user_model.email, "name": user_model.name}
+            )
+            if response.status_code == 200:
+                return {"message": "User added and welcome email sent"}, 200
             return {"message":"User created successfully"}, 201
         except ValidationError as e:
             return {"Error": e.errors()}, 400
